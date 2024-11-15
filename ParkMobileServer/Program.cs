@@ -13,7 +13,7 @@ namespace ParkMobileServer
 			// Add services to the container.
 			builder.Services.AddDbContext<PostgreSQLDbContext>(options =>
 			{
-				options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreWorkConnection"));
+				options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection"));
 			});
 
 			builder.Services.AddControllers();
