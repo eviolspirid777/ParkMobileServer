@@ -5,3 +5,5 @@
 ./ParkMobileServer/bin/
 
 .idea
+.vs
+./.vs

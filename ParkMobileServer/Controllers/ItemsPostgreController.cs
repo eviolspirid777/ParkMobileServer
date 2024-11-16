@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.DbContext;
 using ParkMobileServer.Entities.Items;
 using System.Buffers;
 using System.IO;
+using System.Net.WebSockets;
 
 namespace ParkMobileServer.Controllers
 {
@@ -19,7 +21,65 @@ namespace ParkMobileServer.Controllers
 			_postgreSQLDbContext = postgreSQLDbContext;
 		}
 
-        [HttpPost("test")]
+		[HttpPost("updatePhoto")]
+		public async Task<IActionResult> UpdatePhoto([FromForm] IFormFile image)
+		{
+			if (image == null || image.Length == 0)
+			{
+				return BadRequest("Image is required");
+			}
+
+			var form = await Request.ReadFormAsync();
+			var name = form["name"].ToString();
+
+			if (string.IsNullOrEmpty(name))
+			{
+				return BadRequest("Name is required.");
+			}
+
+
+			using (var memoryStream = new MemoryStream())
+			{
+				await image.CopyToAsync(memoryStream);
+				var imageBytes = memoryStream.ToArray();
+
+				// Найдем все записи с указанным именем
+				var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Name == name).ToList();
+
+				// Важно!  Проверка на пустой список, чтобы избежать исключения.
+				if (!itemsToUpdate.Any())
+				{
+					return NotFound("No items found with the specified name.");
+				}
+
+				foreach (var item in itemsToUpdate)
+				{
+					//Избегаем внесения лишних изменений, если изображение уже установлено.
+					if (item.Image != null)
+					{
+						item.Image = imageBytes;
+					}
+					// Важно!  Добавить проверку на корректность
+					else if (imageBytes != null && imageBytes.Length > 0)
+					{
+						item.Image = imageBytes;
+					}
+				}
+
+				try
+				{
+					await _postgreSQLDbContext.SaveChangesAsync();
+					return Ok();
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					return StatusCode(500, $"Error updating items: {ex.Message}");
+				}
+			}
+		}
+
+
+		[HttpPost("test")]
         public async Task<bool> PushTestData()
         {
 			_postgreSQLDbContext.ItemEntities.AddRange(
