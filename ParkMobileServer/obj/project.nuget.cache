@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xZKGXz2phFcEt0sULdqbgVl8abhP2qqt+5/ZWwidRL92sVTdo6BNhoXEmyqfJ8rRfCI48zkuybQ0PZY8f7Q4hQ==",
+  "dgSpecHash": "aqE8NT+1/54f428qSfjVxp+fE1EZRYAKTJHJEF36vOVL9eKxz0ft56jLNkqOZ0ZNuGIEYSQV9NkrM4nTUEykAw==",
   "success": true,
   "projectFilePath": "F:\\WorkProjects\\EmilWebSite\\ParkMobileServer\\ParkMobileServer\\ParkMobileServer\\ParkMobileServer.csproj",
   "expectedPackageFiles": [
@@ -25,6 +25,7 @@
     "C:\\Users\\eviol\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\eviol\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\eviol\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\eviol\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\eviol\\.nuget\\packages\\npgsql\\7.0.7\\npgsql.7.0.7.nupkg.sha512",
     "C:\\Users\\eviol\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.18\\npgsql.entityframeworkcore.postgresql.7.0.18.nupkg.sha512",
     "C:\\Users\\eviol\\.nuget\\packages\\runtime.native.system.data.sqlclient.sni\\4.7.0\\runtime.native.system.data.sqlclient.sni.4.7.0.nupkg.sha512",

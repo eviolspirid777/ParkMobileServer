@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.DbContext;
 using ParkMobileServer.Entities.Items;
+using ParkMobileServer.Entities.Orders;
 using System.Buffers;
 using System.IO;
 using System.Net.WebSockets;
@@ -12,13 +13,46 @@ namespace ParkMobileServer.Controllers
 	[Route("api/[controller]")]
 	public class ItemsPostgreController : Controller
 	{
-		PostgreSQLDbContext _postgreSQLDbContext;
+		private readonly PostgreSQLDbContext _postgreSQLDbContext;
+		private readonly TelegramBot.TelegramBot _telegramBot;
 		public ItemsPostgreController
 		(
-			PostgreSQLDbContext postgreSQLDbContext
+			PostgreSQLDbContext postgreSQLDbContext,
+			TelegramBot.TelegramBot telegramBot
 		)
 		{
 			_postgreSQLDbContext = postgreSQLDbContext;
+			_telegramBot = telegramBot;
+		}
+
+		[HttpPost("orderData")]
+		public async Task<IActionResult> PlaceOrder([FromBody] Order order)
+		{
+			string message = $"Новый заказ!\n\n\n" +
+				"Клиент:\n" +
+				$"\tИмя: {order.personName}\n" +
+				$"\tТелефон: {order.telephone}\n" +
+				$"\tEmail: {order.email}\n\n\n" +
+				"Заказ:\n" +
+				$"\tГород: {order.city}\n" +
+				$"\tТип доставки: {order.deliveryType}\n" +
+				$"\tПункт получения: {order.postMat}\n" +
+				$"\tПолучатель: {order.reciver}\n" +
+				$"\tОписание заказа: {order.description}\n" +
+				$"\tТип оплаты: {order.paymentType}\n" +
+				"\n\n\n" +
+				$"Товары:\n";
+			
+			foreach ( var item in order.items )
+			{
+				message += $"\tНазвание: {item.name}\n" +
+									 $"\tАртикул: {item.article}\n" +
+									 $"\tКоличество: {item.count}\n" +
+									 "\n\n";
+			}
+
+			await _telegramBot.SendMessageAsync(message);
+			return Ok("Заказ успешно собран!");
 		}
 
 		[HttpPost("updatePhoto")]
