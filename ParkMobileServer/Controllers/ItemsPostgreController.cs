@@ -4,12 +4,13 @@ using ParkMobileServer.DbContext;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using System.Buffers;
+using System.Configuration;
 using System.IO;
 using System.Net.WebSockets;
 
 namespace ParkMobileServer.Controllers
 {
-    [ApiController]
+	[ApiController]
 	[Route("api/[controller]")]
 	public class ItemsPostgreController : Controller
 	{
@@ -177,16 +178,80 @@ namespace ParkMobileServer.Controllers
         }
 
 		[HttpGet]
-		public ActionResult<ItemsEntityList> GetItemsList(int skip, int take)
+		public ActionResult<ItemsEntityList> GetItemsList(int skip, int take, string? filter)
 		{
-            var items = _postgreSQLDbContext.ItemEntities
-									.Skip(skip)
-									.Take(take)
-									.ToArray();
+			List<ItemEntity> itemList = null;
+
+			if(filter != null)
+			{
+				switch (filter)
+				{
+					case "Apple":
+						itemList = new(_postgreSQLDbContext
+													.ItemEntities
+													.Where(el => el.ItemBrand == ItemBrand.Apple)
+													.Skip(skip)
+													.Take(take)
+													.ToArray());
+						break;
+					case "Samsung":
+						itemList = new(_postgreSQLDbContext
+													.ItemEntities
+													.Where(el => el.ItemBrand == ItemBrand.Samsung)
+													.Skip(skip)
+													.Take(take)
+													.ToArray());
+						break;
+					case "Xiaomi":
+						itemList = new(_postgreSQLDbContext
+													.ItemEntities
+													.Where(el => el.ItemBrand == ItemBrand.Xiaomi)
+													.Skip(skip)
+													.Take(take)
+													.ToArray());
+						break;
+					case "Dyson":
+						itemList = new(_postgreSQLDbContext
+													.ItemEntities
+													.Where(el => el.ItemBrand == ItemBrand.Dyson)
+													.Skip(skip)
+													.Take(take)
+													.ToArray());
+						break;
+					case "Headphones":
+						itemList = new(_postgreSQLDbContext
+													.ItemEntities
+													.Where(el => el.Category == ItemCategory.Audio
+																|| el.Category == ItemCategory.Airpods)
+													.Skip(skip)
+													.Take(take)
+													.ToArray());
+						break;
+					case "Gaming":
+						itemList = new(_postgreSQLDbContext
+													.ItemEntities
+													.Where(el => el.Category == ItemCategory.Gaming
+																|| el.Category == ItemCategory.Accessories
+																|| el.Category == ItemCategory.Tv)
+													.Skip(skip)
+													.Take(take)
+													.ToArray());
+						break;
+					default:
+						break;
+				}
+			}
+			else
+			{
+				itemList = new(_postgreSQLDbContext.ItemEntities
+						.Skip(skip)
+						.Take(take)
+						.ToArray());
+			}
 
 			var itemsEntityList = new ItemsEntityList
 			{
-				items = items,
+				items = itemList == null ? new List<ItemEntity>() : itemList,
 				count = _postgreSQLDbContext.ItemEntities.Count()
 			};
 
@@ -206,6 +271,43 @@ namespace ParkMobileServer.Controllers
 			return item;
 		}
 
+		//[HttpPost("getCategoryItems")]
+		//public async Task<IActionResult> GetCategoryItems(string category)
+		//{
+		//	switch (category)
+		//	{
+		//		case "Apple":
+		//			return Ok(_postgreSQLDbContext
+		//								.ItemEntities
+		//								.Where(el => el.ItemBrand == ItemBrand.Apple));
+		//		case "Samsung":
+		//			return Ok(_postgreSQLDbContext
+		//								.ItemEntities
+		//								.Where(el => el.ItemBrand == ItemBrand.Samsung));
+		//		case "Xiaomi":
+		//			return Ok(_postgreSQLDbContext
+		//								.ItemEntities
+		//								.Where(el => el.ItemBrand == ItemBrand.Xiaomi));
+		//		case "Dyson":
+		//			return Ok(_postgreSQLDbContext
+		//								.ItemEntities
+		//								.Where(el => el.ItemBrand == ItemBrand.Dyson));
+		//		case "Headphones":
+		//			return Ok(_postgreSQLDbContext
+		//							.ItemEntities
+		//							.Where(el => el.Category == ItemCategory.Audio
+		//												|| el.Category == ItemCategory.Airpods));
+		//		case "Gaming":
+		//			return Ok(_postgreSQLDbContext
+		//							.ItemEntities
+		//							.Where(el => el.Category == ItemCategory.Gaming
+		//												|| el.Category == ItemCategory.Accessories
+		//												|| el.Category == ItemCategory.Tv));
+		//		default:
+		//			return Ok();
+		//	}
+		//}
+
 		[HttpPost("category")]
 		public ActionResult<ItemsEntityList> GetItemByCategory(ItemCategory category)
 		{
@@ -214,7 +316,7 @@ namespace ParkMobileServer.Controllers
 				items = _postgreSQLDbContext
 											.ItemEntities
 											.Where(items => items.Category == category)
-											.ToArray(),
+											.ToList(),
 				count = _postgreSQLDbContext
 											.ItemEntities
 											.Where(items => items.Category == category)
@@ -232,7 +334,7 @@ namespace ParkMobileServer.Controllers
 			items = _postgreSQLDbContext
 								.ItemEntities
 								.Where(items => items.ItemBrand == brand)
-								.ToArray(),
+								.ToList(),
 			count = _postgreSQLDbContext
 								.ItemEntities
 								.Where(items => items.ItemBrand == brand)
