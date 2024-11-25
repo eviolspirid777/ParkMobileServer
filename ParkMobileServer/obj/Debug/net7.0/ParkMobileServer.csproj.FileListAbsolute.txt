@@ -112,3 +112,4 @@ D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileSe
 D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileServer\obj\Debug\net7.0\ParkMobileServer.genruntimeconfig.cache
 D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileServer\obj\Debug\net7.0\ref\ParkMobileServer.dll
 F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Newtonsoft.Json.dll
+D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Newtonsoft.Json.dll

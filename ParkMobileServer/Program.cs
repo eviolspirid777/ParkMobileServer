@@ -38,7 +38,6 @@ namespace ParkMobileServer
 
 			app.UseAuthorization();
 
-
 			app.MapControllers();
 
 			app.Run();

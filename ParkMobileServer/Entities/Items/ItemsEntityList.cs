@@ -1,8 +1,10 @@
-﻿namespace ParkMobileServer.Entities.Items
+﻿using ParkMobileServer.DTO.ItemDTO;
+
+namespace ParkMobileServer.Entities.Items
 {
     public class ItemsEntityList
     {
-        public List<ItemEntity> items { get; set; }
+        public List<ItemDTO> items { get; set; }
         public int count { get; set; }
     }
 }

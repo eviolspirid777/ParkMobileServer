@@ -2,7 +2,7 @@
 
 namespace ParkMobileServer.Entities.Items
 {
-    public enum ItemCategory
+    public enum ItemCategoryEnum
     {
         Iphone = 0,
         Ipad,
@@ -18,7 +18,7 @@ namespace ParkMobileServer.Entities.Items
         Tv,
     }
 
-    public enum ItemBrand
+    public enum ItemBrandEnum
     {
         Apple = 0,
         Samsung,
@@ -34,10 +34,15 @@ namespace ParkMobileServer.Entities.Items
         public int Id { get; set; }
         public string Name { get; set; }
         public string Price { get; set; }
+        public string? Article { get; set;}
+        public string? DiscountPrice { get; set; }
         public string? Description { get; set; }
         public byte[]? Image { get; set; }
-        public ItemCategory Category { get; set; }
-        public ItemBrand ItemBrand { get; set; }
         public int Stock { get; set; }
+
+        public int CategoryId { get; set; }
+        public ItemCategory? Category { get; set; }
+        public int ItemBrandId { get; set; }
+        public ItemBrand? ItemBrand { get; set; }
     }
 }
