@@ -36,7 +36,7 @@ namespace ParkMobileServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemBrands");
+                    b.ToTable("ItemBrands", (string)null);
                 });
 
             modelBuilder.Entity("ParkMobileServer.Entities.Items.ItemCategory", b =>
@@ -53,7 +53,7 @@ namespace ParkMobileServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemCategories");
+                    b.ToTable("ItemCategories", (string)null);
                 });
 
             modelBuilder.Entity("ParkMobileServer.Entities.Items.ItemEntity", b =>
@@ -99,7 +99,7 @@ namespace ParkMobileServer.Migrations
 
                     b.HasIndex("ItemBrandId");
 
-                    b.ToTable("ItemEntities");
+                    b.ToTable("ItemEntities", (string)null);
                 });
 
             modelBuilder.Entity("ParkMobileServer.Entities.Orders.Order", b =>
@@ -119,7 +119,7 @@ namespace ParkMobileServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ParkMobileServer.Entities.Orders.OrderItemEntity", b =>
@@ -143,7 +143,7 @@ namespace ParkMobileServer.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("ParkMobileServer.Entities.Items.ItemEntity", b =>
