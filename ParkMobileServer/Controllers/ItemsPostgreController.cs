@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.DbContext;
-using ParkMobileServer.DTO.ItemDTO;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using ParkMobileServer.Entities.OrderTelegram;
 using ParkMobileServer.Mappers.ItemsMapper;
-using System.Buffers;
-using System.Configuration;
-using System.Drawing.Drawing2D;
-using System.IO;
-using System.Net.WebSockets;
-using System.Xml.Linq;
 
 namespace ParkMobileServer.Controllers
 {
