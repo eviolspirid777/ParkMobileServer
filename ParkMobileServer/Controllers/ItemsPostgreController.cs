@@ -115,18 +115,39 @@ namespace ParkMobileServer.Controllers
             {
                 query = query.Where(item => item.CategoryId == categoryId.Value);
 				count = query.Where(item => item.CategoryId == categoryId.Value).Count();
+                if (count == 0)
+                {
+                    return Ok(new ItemsEntityList
+                    {
+                        count = count,
+                        items = new()
+                    });
+                }
             }
 
             if (brandId.HasValue)
             {
                 query = query.Where(item => item.ItemBrandId == brandId.Value);
 				count = query.Where(item => item.ItemBrandId == brandId.Value).Count();
+				if( count == 0)
+				{
+					return Ok(new ItemsEntityList
+					{
+						count = count,
+						items = new()
+					});
+				}
             }
 
             var items = await query
 								 .Skip(skip)
 								 .Take(take)
 								 .ToListAsync();
+			
+			if( count == 0 && !categoryId.HasValue && !brandId.HasValue)
+			{
+				count = (await query.ToListAsync()).Count;
+            }
 
             var itemsDTO = items.Select(item => ItemMapper.MapToDto(item, item.ItemBrand, item.Category)).ToList();
 			
