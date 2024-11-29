@@ -12,6 +12,7 @@ namespace ParkMobileServer.Mappers.ItemsMapper
             {
                 return new ItemDTO
                 {
+                    id = item.Id,
                     Name = item.Name,
                     BrandName = brand.Name,
                     CategoryName = category.Name,
@@ -19,13 +20,15 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     DiscountPrice = item.DiscountPrice,
                     Image = item.Image,
                     Price = item.Price,
-                    Stock = item.Stock
+                    Stock = item.Stock,
+                    Options = item.Options,
                 };
             }
             if(brand != null)
             {
                 return new ItemDTO
                 {
+                    id = item.Id,
                     Name = item.Name,
                     BrandName = brand.Name,
                     CategoryName = "",
@@ -33,13 +36,15 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     DiscountPrice = item.DiscountPrice,
                     Image = item.Image,
                     Price = item.Price,
-                    Stock = item.Stock
+                    Stock = item.Stock,
+                    Options = item.Options,
                 };
             }
             if(category != null)
             {
                 return new ItemDTO
                 {
+                    id = item.Id,
                     Name = item.Name,
                     BrandName = "",
                     CategoryName = category.Name,
@@ -47,12 +52,14 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     DiscountPrice = item.DiscountPrice,
                     Image = item.Image,
                     Price = item.Price,
-                    Stock = item.Stock
+                    Stock = item.Stock,
+                    Options = item.Options,
                 };
             }
 
             return new ItemDTO
             {
+                id = item.Id,
                 Name = item.Name,
                 BrandName = "",
                 CategoryName = "",
@@ -60,7 +67,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                 DiscountPrice = item.DiscountPrice,
                 Image = item.Image,
                 Price = item.Price,
-                Stock = item.Stock
+                Stock = item.Stock,
+                Options = item.Options,
             };
         }
     }

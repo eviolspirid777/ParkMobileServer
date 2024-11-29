@@ -39,6 +39,7 @@ namespace ParkMobileServer.Entities.Items
         public string? Description { get; set; }
         public byte[]? Image { get; set; }
         public int Stock { get; set; }
+        public string? Options{ get; set; }
 
         public int CategoryId { get; set; }
         public ItemCategory? Category { get; set; }
