@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.DbContext;
-using ParkMobileServer.DTO.ItemDTO;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using ParkMobileServer.Entities.OrderTelegram;
 using ParkMobileServer.Mappers.ItemsMapper;
-using System.Buffers;
-using System.Configuration;
-using System.Drawing.Drawing2D;
-using System.IO;
-using System.Net.WebSockets;
-using System.Xml.Linq;
 
 namespace ParkMobileServer.Controllers
 {
@@ -363,24 +356,24 @@ namespace ParkMobileServer.Controllers
             return File(item.Image, imageContentType); // Используйте метод File для отправки изображения
         }
 
-   //     [HttpPost("upload")]
-   //     public async Task<IActionResult> UploadData([FromForm] IFormFile image)
-   //     {
-   //         if (image == null || image.Length == 0)
-   //         {
-   //             return BadRequest("Image is required");
-   //         }
+		[HttpPost("upload")]
+		public async Task<IActionResult> UploadData([FromForm] IFormFile image)
+		{
+			if (image == null || image.Length == 0)
+			{
+				return BadRequest("Image is required");
+			}
 
-   //         // Получение данных из FormData
-   //         var form = await Request.ReadFormAsync();
-   //         var price = form["price"];
-   //         var tag = form["tag"];
-			//var category = form["category"];
-			//var description = form["description"];
-			//var brand = form["brand"];
-			//var stock = form["stock"];
+			// Получение данных из FormData
+			var form = await Request.ReadFormAsync();
+			var price = form["price"];
+			var tag = form["tag"];
+			var category = form["category"];
+			var description = form["description"];
+			var brand = form["brand"];
+			var stock = form["stock"];
 
-			//if(!Enum.TryParse(category, true, out ItemCategory itemCategory))
+			//if (!Enum.TryParse(category, true, out ItemCategory itemCategory))
 			//{
 			//	return BadRequest($"Invalid category type! {category}");
 			//}
@@ -391,28 +384,29 @@ namespace ParkMobileServer.Controllers
 			//}
 
 
-			//// Преобразование IFormFile в byte[]
-			//using (var memoryStream = new MemoryStream())
-   //         {
-   //             await image.CopyToAsync(memoryStream);
-   //             var imageBytes = memoryStream.ToArray();
+			// Преобразование IFormFile в byte[]
+			using (var memoryStream = new MemoryStream())
+			{
+				await image.CopyToAsync(memoryStream);
+				var imageBytes = memoryStream.ToArray();
 
-			//	// Создание уникального ID
-			//	var item = new ItemEntity
-			//	{
-			//		Image = imageBytes,
-			//		Price = price.ToString(),
-			//		Name = tag.ToString(),
-			//		Category = itemCategory,
-			//		Description = description.ToString(),
-			//		ItemBrand = itemBrand,
-			//		Stock = Int32.Parse(stock.ToString())
-			//	};
+				// Создание уникального ID
+				//var item = new ItemEntity
+				//{
+				//	Image = imageBytes,
+				//	Price = price.ToString(),
+				//	Name = tag.ToString(),
+				//	Category = itemCategory,
+				//	Description = description.ToString(),
+				//	ItemBrand = itemBrand,
+				//	Stock = Int32.Parse(stock.ToString())
+				//};
 
-   //             _postgreSQLDbContext.ItemEntities.Add(item);
-   //             await _postgreSQLDbContext.SaveChangesAsync();
-   //             return CreatedAtAction(nameof(GetItem), new { id = item.Id }, item);
-   //         }
-   //     }
-    }
+				//_postgreSQLDbContext.ItemEntities.Add(item);
+				//await _postgreSQLDbContext.SaveChangesAsync();
+				//return CreatedAtAction(nameof(GetItem), new { id = item.Id }, item);
+				return Ok();
+			}
+		}
+	}
 }
