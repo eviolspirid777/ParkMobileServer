@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\Новая папка\**" />
+    <Content Remove="Entities\Новая папка\**" />
+    <EmbeddedResource Remove="Entities\Новая папка\**" />
+    <None Remove="Entities\Новая папка\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.20" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.20">
@@ -16,10 +23,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql" Version="7.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.18" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Entities\Новая папка\" />
   </ItemGroup>
 
 </Project>
