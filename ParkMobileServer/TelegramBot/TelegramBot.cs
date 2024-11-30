@@ -9,12 +9,10 @@ namespace ParkMobileServer.TelegramBot
 	public class TelegramBot
 	{
 		private readonly string _botToken;
-		private readonly string _chatId;
 
-		public TelegramBot(string botToken, string chatId)
+		public TelegramBot(string botToken)
 		{
 			_botToken = botToken;
-			_chatId = chatId;
 		}
 
 		public async Task SendMessageAsync(string message)
@@ -22,15 +20,20 @@ namespace ParkMobileServer.TelegramBot
 			using (var httpClient = new HttpClient())
 			{
 				var url = $"https://api.telegram.org/bot{_botToken}/sendMessage";
-				var json = JsonConvert.SerializeObject(new
+				//Me: 481227813
+				//Emil: 643139754
+				foreach (var element in new[ ] { "481227813", "643139754" })
 				{
-					chat_id = _chatId,
-					text = message
-				});
+					var json = JsonConvert.SerializeObject(new
+					{
+						chat_id = element,
+						text = message
+					});
 
-				var content = new StringContent(json, Encoding.UTF8, "application/json");
-				var response = await httpClient.PostAsync(url, content);
-				response.EnsureSuccessStatusCode();
+					var content = new StringContent(json, Encoding.UTF8, "application/json");
+					var response = await httpClient.PostAsync(url, content);
+					response.EnsureSuccessStatusCode();
+				}
 			}
 		}
 	}

@@ -16,11 +16,10 @@ namespace ParkMobileServer
 				options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection"));
 			});
 
-			builder.Services.AddSingleton<TelegramBot.TelegramBot>(provider =>
+			builder.Services.AddSingleton(provider =>
 			{
 				var botToken = "7566916254:AAG6ikx9G9a2ETL1lAEbZFWxXmhj7ylq_MY";
-				var chatId = "481227813";
-				return new TelegramBot.TelegramBot(botToken, chatId);
+				return new TelegramBot.TelegramBot(botToken);
 			});
 
 			builder.Services.AddControllers();

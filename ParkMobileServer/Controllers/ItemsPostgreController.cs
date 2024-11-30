@@ -23,6 +23,7 @@ namespace ParkMobileServer.Controllers
 			_postgreSQLDbContext = postgreSQLDbContext;
 			_telegramBot = telegramBot;
 		}
+		#region BaseFunctionsToCompeteDB
 
 		[HttpPost("CreateCategory")]
 		public async Task<IActionResult> CreateCategory([FromBody] ItemCategory category)
@@ -120,10 +121,11 @@ namespace ParkMobileServer.Controllers
             await _postgreSQLDbContext.SaveChangesAsync();
             return true;
         }
+		#endregion
 
-        #region Item
+		#region Item
 
-        [HttpPost("CreateItem")]
+		[HttpPost("CreateItem")]
 		public async Task<IActionResult> CreateItem([FromBody] ItemEntity item)
 		{
             if (item== null)
@@ -136,10 +138,10 @@ namespace ParkMobileServer.Controllers
 			return Ok();
 		}
 
-		[HttpGet("GetItem/{name}")]
-		public async Task<IActionResult> GetItem(string name)
+		[HttpPost("GetItem/{id}")]
+		public async Task<IActionResult> GetItem(int id)
 		{
-			var item = _postgreSQLDbContext.ItemEntities.FirstOrDefault(item => item.Name == name);
+			var item = _postgreSQLDbContext.ItemEntities.FirstOrDefault(item => item.Id == id);
 
 			var brand = await _postgreSQLDbContext
 											.ItemBrands
@@ -187,6 +189,7 @@ namespace ParkMobileServer.Controllers
             _item.Stock = item.Stock;
             _item.CategoryId = item.CategoryId;
 			_item.ItemBrandId = item.ItemBrandId;
+			_item.Options = item.Options ?? _item.Options;
 
 			_postgreSQLDbContext.ItemEntities.Update(_item);
 
@@ -318,6 +321,7 @@ namespace ParkMobileServer.Controllers
 												.FirstOrDefault(i => i.Id == item.Product.Id);
 
 				product.Stock -= item.Quantity;
+
 				if(product.Stock <= 0)
 				{
 					throw new Exception("Товара нет в наличии");
@@ -328,6 +332,7 @@ namespace ParkMobileServer.Controllers
 			await _telegramBot.SendMessageAsync(message);
 			return Ok("Заказ успешно собран!");
 		}
+		#region ImageFunctions
 
 		[HttpPost("updatePhoto")]
 		public async Task<IActionResult> UpdatePhoto([FromForm] IFormFile image)
@@ -452,5 +457,6 @@ namespace ParkMobileServer.Controllers
 				return Ok();
 			}
 		}
+		#endregion
 	}
 }
