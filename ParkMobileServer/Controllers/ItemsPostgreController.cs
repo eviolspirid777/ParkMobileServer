@@ -332,6 +332,13 @@ namespace ParkMobileServer.Controllers
 			await _telegramBot.SendMessageAsync(message);
 			return Ok("Заказ успешно собран!");
 		}
+
+		[HttpPost("TelephoneCall/{tel}")]
+		public async Task <IActionResult> PostTelephoneAlert(string tel)
+		{
+			await _telegramBot.SendTelephoneRecallAlert(tel);
+			return Ok();
+		}
 		#region ImageFunctions
 
 		[HttpPost("updatePhoto")]
