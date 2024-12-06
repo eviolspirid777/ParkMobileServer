@@ -1,5 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens; // Для SymmetricSecurityKey, SigningCredentials, SecurityAlgorithms
-using System.IdentityModel.Tokens.Jwt; // Для JwtSecurityToken и JwtSecurityTokenHandler
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
 using ParkMobileServer.DbContext;
 using ParkMobileServer.Entities.Users;
