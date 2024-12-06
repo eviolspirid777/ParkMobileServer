@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using ParkMobileServer.DbContext;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ParkMobileServer
 {
@@ -24,6 +27,32 @@ namespace ParkMobileServer
 
 			builder.Services.AddControllers();
 
+			string secretKey = builder.Configuration["JwtSecret"]; // Добавьте JwtSecret в appsettings.json или переменные окружения
+			if (string.IsNullOrEmpty(secretKey))
+			{
+				throw new Exception("JwtSecret не задан!");
+			}
+			var key = Encoding.UTF8.GetBytes(secretKey);
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(options =>
+			{
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidateLifetime = true,
+					ValidateIssuerSigningKey = true,
+					ValidIssuer = "ParkMobileServer", // Укажите ваш issuer
+					ValidAudience = "ParkMobileAdmin", // Укажите вашу аудиторию
+					IssuerSigningKey = new SymmetricSecurityKey(key)
+					//Все работает просто не забудь приписку Bearer 
+				};
+			});
+
 			var app = builder.Build();
 
 			app.UseCors(cors => cors
@@ -35,6 +64,7 @@ namespace ParkMobileServer
 
 			app.UseHttpsRedirection();
 
+			app.UseAuthentication();
 			app.UseAuthorization();
 
 			app.MapControllers();

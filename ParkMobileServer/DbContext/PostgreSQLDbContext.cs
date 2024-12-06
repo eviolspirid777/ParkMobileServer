@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
+using ParkMobileServer.Entities.Users;
 
 namespace ParkMobileServer.DbContext
 {
@@ -37,5 +38,6 @@ namespace ParkMobileServer.DbContext
         public DbSet<ItemBrand> ItemBrands { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public DbSet<OrderItemEntity> OrderItems { get; set; } = null!;
+		public DbSet<User> Users { get; set; } = null!;
     }
 }

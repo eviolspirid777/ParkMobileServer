@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.DbContext;
 using ParkMobileServer.Entities.Items;
@@ -124,7 +125,7 @@ namespace ParkMobileServer.Controllers
 		#endregion
 
 		#region Item
-
+		[Authorize]		
 		[HttpPost("CreateItem")]
 		public async Task<IActionResult> CreateItem([FromBody] ItemEntity item)
 		{
@@ -154,6 +155,7 @@ namespace ParkMobileServer.Controllers
 			return Ok(itemDTO);
 		}
 
+		[Authorize]
 		[HttpDelete("DeleteItem/{id}")]
 		public async Task<IActionResult> DeleteItem (int id )
 		{
@@ -170,6 +172,7 @@ namespace ParkMobileServer.Controllers
 			return Ok();
 		}
 
+		[Authorize]
 		[HttpPost("ChangeItem")]
 		public async Task<IActionResult> ChangeItem([FromBody] ItemEntity item)
 		{

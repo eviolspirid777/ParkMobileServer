@@ -113,3 +113,14 @@ D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileSe
 D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileServer\obj\Debug\net7.0\ref\ParkMobileServer.dll
 F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\MyDocs\projects_own\ParkMobile\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Newtonsoft.Json.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\BCrypt.Net-Next.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.Bcl.TimeProvider.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+F:\WorkProjects\EmilWebSite\ParkMobileServer\ParkMobileServer\ParkMobileServer\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
