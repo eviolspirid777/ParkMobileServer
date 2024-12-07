@@ -41,7 +41,11 @@ namespace ParkMobileServer.Controllers
 		public async Task<ActionResult<string>> Login([FromBody] LoginModel login)
 		{
 			var user = _postgreSQLDbContext.Users.FirstOrDefault(x => x.Username == login.Username);
-			var verify = BCrypt.Net.BCrypt.Verify(login.Password, user.PasswordHash);
+			bool verify = false;
+			if(user != null)
+			{
+				verify = BCrypt.Net.BCrypt.Verify(login.Password, user.PasswordHash);
+			}
 
 			string secretKey = _configuration["JwtSecret"]; // Добавьте _configuration в конструктор контроллера
 			if (string.IsNullOrEmpty(secretKey))

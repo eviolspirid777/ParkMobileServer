@@ -12,6 +12,7 @@ namespace ParkMobileServer.DTO.ItemDTO
         public byte[]? Image { get; set; }
         public int Stock { get; set; }
         public string? Options { get; set; }
+        public string Article { get; set; }
 
         public string CategoryName { get; set; }
         public string BrandName { get; set; }

@@ -22,6 +22,7 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Price = item.Price,
                     Stock = item.Stock,
                     Options = item.Options,
+                    Article = item.Article
                 };
             }
             if(brand != null)
@@ -38,7 +39,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Price = item.Price,
                     Stock = item.Stock,
                     Options = item.Options,
-                };
+					Article = item.Article
+				};
             }
             if(category != null)
             {
@@ -54,7 +56,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Price = item.Price,
                     Stock = item.Stock,
                     Options = item.Options,
-                };
+					Article = item.Article
+				};
             }
 
             return new ItemDTO
@@ -69,7 +72,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                 Price = item.Price,
                 Stock = item.Stock,
                 Options = item.Options,
-            };
+				Article = item.Article
+			};
         }
     }
 }
