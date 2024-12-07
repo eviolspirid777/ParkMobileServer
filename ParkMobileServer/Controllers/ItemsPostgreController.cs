@@ -353,11 +353,11 @@ namespace ParkMobileServer.Controllers
 			}
 
 			var form = await Request.ReadFormAsync();
-			var name = form["name"].ToString();
+			var id = Convert.ToInt32(form["id"]);
 
-			if (string.IsNullOrEmpty(name))
+			if (id == null)
 			{
-				return BadRequest("Name is required.");
+				return BadRequest("Id is required.");
 			}
 
 
@@ -367,7 +367,7 @@ namespace ParkMobileServer.Controllers
 				var imageBytes = memoryStream.ToArray();
 
 				// Найдем все записи с указанным именем
-				var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Name == name).ToList();
+				var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Id== id).ToList();
 
 				// Важно!  Проверка на пустой список, чтобы избежать исключения.
 				if (!itemsToUpdate.Any())
@@ -424,13 +424,13 @@ namespace ParkMobileServer.Controllers
 			}
 
 			// Получение данных из FormData
-			var form = await Request.ReadFormAsync();
-			var price = form["price"];
-			var tag = form["tag"];
-			var category = form["category"];
-			var description = form["description"];
-			var brand = form["brand"];
-			var stock = form["stock"];
+			//var form = await Request.ReadFormAsync();
+			//var price = form["price"];
+			//var tag = form["tag"];
+			//var category = form["category"];
+			//var description = form["description"];
+			//var brand = form["brand"];
+			//var stock = form["stock"];
 
 			//if (!Enum.TryParse(category, true, out ItemCategory itemCategory))
 			//{

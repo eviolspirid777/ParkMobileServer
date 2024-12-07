@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using ParkMobileServer.TelegramBot;
 
 namespace ParkMobileServer.Controllers
 {
@@ -16,25 +17,39 @@ namespace ParkMobileServer.Controllers
 	{
 		private readonly PostgreSQLDbContext _postgreSQLDbContext;
 		private readonly IConfiguration _configuration;
+		private readonly TelegramBot.TelegramBot _telegramBot;
 
 		public AutorizationController
 		(
 			PostgreSQLDbContext postgreSQLDbContext,
-			IConfiguration configuration
+			IConfiguration configuration,
+			TelegramBot.TelegramBot telegramBot
 		)
 		{
 			_postgreSQLDbContext = postgreSQLDbContext;
 			_configuration = configuration;
+			_telegramBot = telegramBot;
 		}
 
 		[HttpPost("register")]
 		public async Task<ActionResult<User>> Register(User user)
 		{
-			// Хеширование пароля
-			user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
-			_postgreSQLDbContext.Users.Add(user);
-			await _postgreSQLDbContext.SaveChangesAsync();
-			return Ok(user);
+			string message = $"Подтвердите регистрацию пользователя имя:{user.Username}. Ответьте 'да', чтобы подтвердить.";
+			await _telegramBot.SendMessageAsync(message); //Передаем ID пользователя
+
+			string response = await _telegramBot.GetResponseFromUser();
+
+			if (response.ToLower() == "да")
+			{
+				user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+				_postgreSQLDbContext.Users.Add(user);
+				await _postgreSQLDbContext.SaveChangesAsync();
+				return Ok(user);
+			}
+			else
+			{
+				return BadRequest("Регистрация отклонена!");
+			}
 		}
 
 		[HttpPost("login")]
