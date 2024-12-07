@@ -51,6 +51,8 @@ namespace ParkMobileServer.TelegramBot
 				{
 					foreach (var update in updates.result)
 					{
+						//Me: 481227813
+						//Emil: 643139754
 						if (update.message != null && update.message.chat.id == 481227813)
 						{
 							offset = update.update_id;

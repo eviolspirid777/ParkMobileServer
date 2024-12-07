@@ -6,16 +6,16 @@ namespace ParkMobileServer.Mappers.ItemsMapper
 {
     public class ItemMapper
     {
-        public static ItemDTO MapToDto(ItemEntity item, ItemBrand? brand, ItemCategory? category)
+        public static ItemDTO MapToDto(ItemEntity item, int brandId, int categoryId)
         {
-            if(brand != null && category != null )
+            if(brandId != null && categoryId != null )
             {
                 return new ItemDTO
                 {
                     id = item.Id,
                     Name = item.Name,
-                    BrandName = brand.Name,
-                    CategoryName = category.Name,
+                    BrandId = brandId,
+                    CategoryId = categoryId,
                     Description = item.Description,
                     DiscountPrice = item.DiscountPrice,
                     Image = item.Image,
@@ -25,14 +25,14 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Article = item.Article
                 };
             }
-            if(brand != null)
+            if(brandId != null)
             {
                 return new ItemDTO
                 {
                     id = item.Id,
                     Name = item.Name,
-                    BrandName = brand.Name,
-                    CategoryName = "",
+                    BrandId = brandId,
+                    CategoryId = -1,
                     Description = item.Description,
                     DiscountPrice = item.DiscountPrice,
                     Image = item.Image,
@@ -42,14 +42,14 @@ namespace ParkMobileServer.Mappers.ItemsMapper
 					Article = item.Article
 				};
             }
-            if(category != null)
+            if(categoryId != null)
             {
                 return new ItemDTO
                 {
                     id = item.Id,
                     Name = item.Name,
-                    BrandName = "",
-                    CategoryName = category.Name,
+                    BrandId = -1,
+                    CategoryId = categoryId,
                     Description = item.Description,
                     DiscountPrice = item.DiscountPrice,
                     Image = item.Image,
@@ -64,8 +64,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
             {
                 id = item.Id,
                 Name = item.Name,
-                BrandName = "",
-                CategoryName = "",
+                BrandId = -1,
+                CategoryId = -1,
                 Description = item.Description,
                 DiscountPrice = item.DiscountPrice,
                 Image = item.Image,

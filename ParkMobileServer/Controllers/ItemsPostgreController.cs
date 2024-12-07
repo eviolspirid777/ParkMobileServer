@@ -5,6 +5,8 @@ using ParkMobileServer.DbContext;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using ParkMobileServer.Entities.OrderTelegram;
+using ParkMobileServer.Mappers.BrandMapper;
+using ParkMobileServer.Mappers.CategoryMapper;
 using ParkMobileServer.Mappers.ItemsMapper;
 
 namespace ParkMobileServer.Controllers
@@ -25,34 +27,6 @@ namespace ParkMobileServer.Controllers
 			_telegramBot = telegramBot;
 		}
 		#region BaseFunctionsToCompeteDB
-
-		[HttpPost("CreateCategory")]
-		public async Task<IActionResult> CreateCategory([FromBody] ItemCategory category)
-		{
-			if(category == null || string.IsNullOrWhiteSpace(category.Name))
-			{
-				return BadRequest("InvalidData");
-			}
-
-			_postgreSQLDbContext.ItemCategories.Add(category);
-			await _postgreSQLDbContext.SaveChangesAsync();
-
-			return Ok();
-		}
-
-        [HttpPost("CreateBrand")]
-        public async Task<IActionResult> CreateBrand([FromBody] ItemBrand brand)
-		{
-			if(brand == null || string.IsNullOrWhiteSpace(brand.Name))
-			{
-				return BadRequest("Invalid brand data");
-			}
-
-			_postgreSQLDbContext.ItemBrands.Add(brand);
-			await _postgreSQLDbContext.SaveChangesAsync();
-
-			return Ok();
-		}
 
         [HttpPost("test")]
         public async Task<bool> PushTestData()
@@ -123,7 +97,56 @@ namespace ParkMobileServer.Controllers
             return true;
         }
 		#endregion
+		#region Brands&Categories
+		[HttpGet("GetBrands")]
+		public async Task<IActionResult> GetBrandsList()
+		{
+			var items = await _postgreSQLDbContext
+											.ItemBrands
+											.ToListAsync();
+			var brandMapper = new BrandMapper();
+			var mappedItems = brandMapper.MapToDTO(items);
+			return Ok(mappedItems);
+		}
 
+		[HttpPost("CreateBrand")]
+		public async Task<IActionResult> CreateBrand([FromBody] ItemBrand brand)
+		{
+			if (brand == null || string.IsNullOrWhiteSpace(brand.Name))
+			{
+				return BadRequest("Invalid brand data");
+			}
+
+			_postgreSQLDbContext.ItemBrands.Add(brand);
+			await _postgreSQLDbContext.SaveChangesAsync();
+
+			return Ok();
+		}
+
+		[HttpGet("GetCategories")]
+		public async Task<IActionResult> GetCategoriesList()
+		{
+			var items = await _postgreSQLDbContext
+									.ItemCategories
+									.ToListAsync();
+			var categoryMapper = new CategoryMapper();
+			var mappedItems = categoryMapper.MapToDTO(items);
+			return Ok(mappedItems);
+		}
+		[HttpPost("CreateCategory")]
+		public async Task<IActionResult> CreateCategory([FromBody] ItemCategory category)
+		{
+			if (category == null || string.IsNullOrWhiteSpace(category.Name))
+			{
+				return BadRequest("InvalidData");
+			}
+
+			_postgreSQLDbContext.ItemCategories.Add(category);
+			await _postgreSQLDbContext.SaveChangesAsync();
+
+			return Ok();
+		}
+		#endregion
 		#region Item
 		[Authorize]		
 		[HttpPost("CreateItem")]
@@ -151,7 +174,7 @@ namespace ParkMobileServer.Controllers
 												.ItemCategories
 												.FirstOrDefaultAsync(category => category.Id == item.CategoryId);
 
-			var itemDTO = ItemMapper.MapToDto(item, brand, category);
+			var itemDTO = ItemMapper.MapToDto(item, brand.Id, category.Id);
 			return Ok(itemDTO);
 		}
 
@@ -261,7 +284,7 @@ namespace ParkMobileServer.Controllers
 				count = (await query.ToListAsync()).Count;
             }
 
-            var itemsDTO = items.Select(item => ItemMapper.MapToDto(item, item.ItemBrand, item.Category)).ToList();
+            var itemsDTO = items.Select(item => ItemMapper.MapToDto(item, item.ItemBrandId, item.CategoryId)).ToList();
 			
 			return Ok(new ItemsEntityList()
             {
@@ -269,9 +292,9 @@ namespace ParkMobileServer.Controllers
                 items = itemsDTO
             });
 		}
-        #endregion
-
-        [HttpPost("orderData")]
+		#endregion
+		#region TelegrammAlerts
+		[HttpPost("orderData")]
 		public async Task<IActionResult> PlaceOrder([FromBody] OrderTelegram order)
 		{
 			var newOrderTelegram = new OrderTelegram()
@@ -342,6 +365,7 @@ namespace ParkMobileServer.Controllers
 			await _telegramBot.SendTelephoneRecallAlert(tel);
 			return Ok();
 		}
+		#endregion
 		#region ImageFunctions
 
 		[HttpPost("updatePhoto")]
