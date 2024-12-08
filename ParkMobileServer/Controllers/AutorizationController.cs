@@ -39,17 +39,21 @@ namespace ParkMobileServer.Controllers
 
 			string response = await _telegramBot.GetResponseFromUser();
 
-			if (response.ToLower() == "да")
+			if(response != null)
 			{
-				user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
-				_postgreSQLDbContext.Users.Add(user);
-				await _postgreSQLDbContext.SaveChangesAsync();
-				return Ok(user);
+				if (response.ToLower() == "да")
+				{
+					user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+					_postgreSQLDbContext.Users.Add(user);
+					await _postgreSQLDbContext.SaveChangesAsync();
+					return Ok(user);
+				}
+				else
+				{
+					return BadRequest("Регистрация отклонена!");
+				}
 			}
-			else
-			{
-				return BadRequest("Регистрация отклонена!");
-			}
+			return BadRequest("Регистрация отклонена!");
 		}
 
 		[HttpPost("login")]
