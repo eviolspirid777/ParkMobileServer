@@ -34,6 +34,12 @@ namespace ParkMobileServer.Controllers
 		[HttpPost("register")]
 		public async Task<ActionResult<User>> Register(User user)
 		{
+			if(_postgreSQLDbContext.Users.FirstOrDefault(_user => _user.Username == user.Username) != null)
+			{
+				return BadRequest("Пользователь с таким именем уже есть!");
+
+			}
+
 			string message = $"Подтвердите регистрацию пользователя имя:{user.Username}. Ответьте 'да', чтобы подтвердить.";
 			await _telegramBot.SendMessageAsync(message); //Передаем ID пользователя
 
