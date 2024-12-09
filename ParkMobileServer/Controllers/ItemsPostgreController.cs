@@ -50,8 +50,9 @@ namespace ParkMobileServer.Controllers
                     Description = "Совершенно новая система двух камер со сверхширокоугольной камерой. Ночной режим и потрясающее качество видео. Защита от воды и пыли. Целый день без подзарядки. Шесть прекрасных цветов. 11 станет вашим любимым числом.\r\nСнимайте видео 4K, отличные портреты и захватывающие дух пейзажи с совершенно новой системой двух камер. Делайте красивейшие снимки при слабом освещении в Ночном режиме. Смотрите фото и видео, играйте в игры — на дисплее Liquid Retina HD 6,1 дюйма всё выглядит естественно и реалистично.\r\n\r\nОткрывайте новые возможности игр, дополненной реальности и фотосъёмки благодаря непревзойдённой производительности процессора A13 Bionic. А с мощным аккумулятором, которого хватит на целый день работы, вы сможете делать больше и меньше времени тратить на подзарядку. Устройство защищено от воды (допускается погружение до 2 метров до 30 минут).",
                     ItemBrandId = 3,
                     Stock = 2,
-                    Article = "123412343145345"
-                },
+                    Article = "123412343145345",
+					IsPopular = true
+				},
                 new ItemEntity
                 {
                     Price = "39 490",
@@ -60,7 +61,8 @@ namespace ParkMobileServer.Controllers
                     Description = "Apple iPhone 12 — ультрамощный смартфон от престижного бренда. Девайс получил молниеносный процессор A14 Bionic и впечатляющий дисплей Super Retina XDR от края до края. Набор продвинутых камер эффективно работает даже в условиях слабого освещения. Видеоролики Dolby Vision завораживают реалистичностью.\r\n\r\nФотовозможности гаджета колоссальны. Широкоугольный датчик теперь улавливает значительно больше света. Проработка нюансов очень точная днем и ночью. Портретный режим обеспечивает художественное размытие фона, выделяя самое главное. Смартфон объединяет прорывные возможности с легендарным дизайном. Apple iPhone 12 это выбор активного пользователя.\r\n",
                     ItemBrandId = 2,
                     Stock = 5,
-                    Article = "34634563456"
+                    Article = "34634563456",
+					IsPopular = true
                 },
                 new ItemEntity
                 {
@@ -80,8 +82,9 @@ namespace ParkMobileServer.Controllers
                     ItemBrandId = 1,
                     Description = "Добро пожаловать в мир стильного дизайна и мощной производительности с MacBook Air 13 2024 года. Этот портативный ноутбук предлагает передовые технологии и функции, которые помогут вам оставаться продуктивным в любой обстановке.\r\n\r\nОсобенности:\r\n\r\nПроизводительность нового поколения: Оснащенный процессором M2 от Apple, MacBook Air 13 2024 обеспечивает высокую производительность и быстродействие для выполнения самых требовательных задач.\r\nЯркий и четкий дисплей: 13,3-дюймовый экран Retina с технологией True Tone обеспечивает яркие и насыщенные цвета, а также резкое и четкое изображение для комфортного просмотра контента.\r\nУдобная клавиатура и трекпад: Клавиатура Magic Keyboard с механизмом ножничного переключателя обеспечивает комфортное и точное нажатие, а мультитач трекпад позволяет удобно управлять курсором.\r\nДолгая автономная работа: Благодаря оптимизированной работе аппаратных компонентов и операционной системы macOS, встроенная батарея обеспечивает до 12 часов работы без подзарядки.\r\nБезопасность и конфиденциальность: Встроенные сканеры Touch ID позволяют быстро и безопасно разблокировать устройство и авторизовываться в приложениях и сервисах Apple.\r\nСовременный дизайн и портативность: Стройный и легкий корпус из алюминия делает MacBook Air 13 2024 идеальным спутником для работы, учебы и развлечений в любом месте.",
                     Stock = 5,
-                    Article = "egkrgow34562"
-                },
+                    Article = "egkrgow34562",
+					IsPopular = true
+				},
                 new ItemEntity
                 {
                     Price = "53 490",
@@ -108,7 +111,7 @@ namespace ParkMobileServer.Controllers
 			var mappedItems = brandMapper.MapToDTO(items);
 			return Ok(mappedItems);
 		}
-
+		//[Authorize]
 		[HttpPost("CreateBrand")]
 		public async Task<IActionResult> CreateBrand([FromBody] ItemBrand brand)
 		{
@@ -133,6 +136,8 @@ namespace ParkMobileServer.Controllers
 			var mappedItems = categoryMapper.MapToDTO(items);
 			return Ok(mappedItems);
 		}
+
+		//[Authorize]
 		[HttpPost("CreateCategory")]
 		public async Task<IActionResult> CreateCategory([FromBody] ItemCategory category)
 		{
@@ -221,6 +226,17 @@ namespace ParkMobileServer.Controllers
 
 			await _postgreSQLDbContext.SaveChangesAsync();
 			return Ok();
+		}
+
+		[HttpGet("GetPopularItems")]
+		public async Task<IActionResult> GetPopularItems()
+		{
+			var newItems = await _postgreSQLDbContext
+						.ItemEntities
+						.Where(item => item.IsPopular == true)
+						.ToListAsync();
+
+			return Ok(newItems);
 		}
 
 		[HttpGet("GetItems")]
@@ -391,7 +407,7 @@ namespace ParkMobileServer.Controllers
 				var imageBytes = memoryStream.ToArray();
 
 				// Найдем все записи с указанным именем
-				var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Id== id).ToList();
+				var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Id == id).ToList();
 
 				// Важно!  Проверка на пустой список, чтобы избежать исключения.
 				if (!itemsToUpdate.Any())

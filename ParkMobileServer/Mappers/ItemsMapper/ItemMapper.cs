@@ -22,7 +22,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Price = item.Price,
                     Stock = item.Stock,
                     Options = item.Options,
-                    Article = item.Article
+                    Article = item.Article,
+                    IsPopular = item.IsPopular,
                 };
             }
             if(brandId != null)
@@ -39,7 +40,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Price = item.Price,
                     Stock = item.Stock,
                     Options = item.Options,
-					Article = item.Article
+					Article = item.Article,
+					IsPopular = item.IsPopular,
 				};
             }
             if(categoryId != null)
@@ -56,7 +58,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Price = item.Price,
                     Stock = item.Stock,
                     Options = item.Options,
-					Article = item.Article
+					Article = item.Article,
+					IsPopular = item.IsPopular,
 				};
             }
 
@@ -72,7 +75,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                 Price = item.Price,
                 Stock = item.Stock,
                 Options = item.Options,
-				Article = item.Article
+				Article = item.Article,
+				IsPopular = item.IsPopular,
 			};
         }
     }
