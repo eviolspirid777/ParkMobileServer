@@ -79,5 +79,17 @@ namespace ParkMobileServer.Mappers.ItemsMapper
 				IsPopular = item.IsPopular,
 			};
         }
+
+        public static ItemShortDTO MatToShortDto(ItemEntity item)
+        {
+            return new ItemShortDTO()
+            {
+                id = item.Id,
+                DiscountPrice = item.DiscountPrice,
+                Image = item.Image,
+                Name = item.Name,
+                Price = item.Price,
+            };
+        }
     }
 }

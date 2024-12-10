@@ -167,6 +167,22 @@ namespace ParkMobileServer.Controllers
 			return Ok();
 		}
 
+		[HttpPost("GetItemByName")]
+		public async Task<IActionResult> GetItemByName(string name)
+		{
+			var items = await _postgreSQLDbContext
+									.ItemEntities
+									.Where(item => item.Name.ToLower().Contains(name.ToLower()))
+									.ToListAsync();
+			
+			if(items.Count == 0)
+			{
+				return BadRequest("Нет товаров с таким именем!");
+			}
+
+			return Ok(items.Select(ItemMapper.MatToShortDto).ToList());
+		}
+
 		[HttpPost("GetItem/{id}")]
 		public async Task<IActionResult> GetItem(int id)
 		{
