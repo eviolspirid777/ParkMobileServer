@@ -1,5 +1,57 @@
 [
   {
+    "ContainingType": "ParkMobileServer.Controllers.AutorizationController",
+    "Method": "Login",
+    "RelativePath": "api/Autorization/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "ParkMobileServer.Entities.Users.LoginModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.AutorizationController",
+    "Method": "Register",
+    "RelativePath": "api/Autorization/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "user",
+        "Type": "ParkMobileServer.Entities.Users.User",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "ParkMobileServer.Entities.Users.User",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
     "Method": "GetImageData",
     "RelativePath": "api/ItemsPostgre/{id}/image",
@@ -97,15 +149,35 @@
   },
   {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
-    "Method": "GetItem",
-    "RelativePath": "api/ItemsPostgre/GetItem/{name}",
+    "Method": "GetBrandsList",
+    "RelativePath": "api/ItemsPostgre/GetBrands",
     "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "GetCategoriesList",
+    "RelativePath": "api/ItemsPostgre/GetCategories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "GetItem",
+    "RelativePath": "api/ItemsPostgre/GetItem/{id}",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "name",
-        "Type": "System.String",
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -144,6 +216,42 @@
   },
   {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "GetItemByName",
+    "RelativePath": "api/ItemsPostgre/GetItemsByName",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "name",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "skip",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "take",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "GetPopularItems",
+    "RelativePath": "api/ItemsPostgre/GetPopularItems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
     "Method": "PlaceOrder",
     "RelativePath": "api/ItemsPostgre/orderData",
     "HttpMethod": "POST",
@@ -153,6 +261,22 @@
       {
         "Name": "order",
         "Type": "ParkMobileServer.Entities.OrderTelegram.OrderTelegram",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "PostTelephoneAlert",
+    "RelativePath": "api/ItemsPostgre/TelephoneCall/{tel}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tel",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],

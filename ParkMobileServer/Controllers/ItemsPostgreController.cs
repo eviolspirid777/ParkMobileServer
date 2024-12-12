@@ -167,20 +167,34 @@ namespace ParkMobileServer.Controllers
 			return Ok();
 		}
 
-		[HttpPost("GetItemByName")]
-		public async Task<IActionResult> GetItemByName(string name)
+		[HttpPost("GetItemsByName")]
+		public async Task<IActionResult> GetItemByName(string name, int skip, int take)
 		{
-			var items = await _postgreSQLDbContext
+
+			var query =  _postgreSQLDbContext
 									.ItemEntities
-									.Where(item => item.Name.ToLower().Contains(name.ToLower()))
-									.ToListAsync();
+									.Where(item => item.Name.ToLower().Contains(name.ToLower()));
+
+			var itemsCount = await query.CountAsync();
+
+			var items = await query
+										.Skip(skip)
+                                        .Take(take)										
+										.ToListAsync();
+
+			var mappedItems = items.Select(ItemMapper.MatToShortDto).ToList();
+
 			
-			if(items.Count == 0)
+			if(itemsCount == 0)
 			{
 				return BadRequest("Нет товаров с таким именем!");
 			}
 
-			return Ok(items.Select(ItemMapper.MatToShortDto).ToList());
+			return Ok(new
+			{
+				items = mappedItems,
+				count = itemsCount
+			});
 		}
 
 		[HttpPost("GetItem/{id}")]
@@ -424,6 +438,7 @@ namespace ParkMobileServer.Controllers
 
 				// Найдем все записи с указанным именем
 				var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Id == id).ToList();
+				//var itemsToUpdate = _postgreSQLDbContext.ItemEntities.Where(i => i.Name == name).ToList();
 
 				// Важно!  Проверка на пустой список, чтобы избежать исключения.
 				if (!itemsToUpdate.Any())
