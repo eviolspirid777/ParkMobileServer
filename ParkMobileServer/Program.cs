@@ -16,7 +16,7 @@ namespace ParkMobileServer
 			// Add services to the container.
 			builder.Services.AddDbContext<PostgreSQLDbContext>(options =>
 			{
-				options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection"));
+				options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 			});
 
 			builder.Services.AddSingleton(provider =>
@@ -24,6 +24,8 @@ namespace ParkMobileServer
 				var botToken = "7566916254:AAG6ikx9G9a2ETL1lAEbZFWxXmhj7ylq_MY";
 				return new TelegramBot.TelegramBot(botToken);
 			});
+
+			builder.WebHost.UseUrls("http://*:3001");
 
 			builder.Services.AddControllers();
 
