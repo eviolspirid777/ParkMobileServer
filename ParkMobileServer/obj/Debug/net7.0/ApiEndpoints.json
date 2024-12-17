@@ -169,6 +169,22 @@
   },
   {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "GetCategoryItems",
+    "RelativePath": "api/ItemsPostgre/GetCategoryItems",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "searchCategoryRequest",
+        "Type": "ParkMobileServer.DTO.ItemDTO.SearchCategoryItemRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
     "Method": "GetItem",
     "RelativePath": "api/ItemsPostgre/GetItem/{id}",
     "HttpMethod": "POST",

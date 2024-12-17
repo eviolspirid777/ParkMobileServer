@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkMobileServer.DbContext;
+using ParkMobileServer.DTO.ItemDTO;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using ParkMobileServer.Entities.OrderTelegram;
@@ -165,6 +166,225 @@ namespace ParkMobileServer.Controllers
             _postgreSQLDbContext.ItemEntities.Add(item);
 			await _postgreSQLDbContext.SaveChangesAsync();
 			return Ok();
+		}
+
+		[HttpPost("GetCategoryItems")]
+		public async Task<IActionResult> GetCategoryItems(SearchCategoryItemRequest searchCategoryRequest)
+		{
+			var _query = searchCategoryRequest.Query;
+
+			var splitedQuery = _query.Split("/");
+
+			string category = splitedQuery[0];
+			string item = splitedQuery[1];
+
+            IQueryable<ItemEntity> query = _postgreSQLDbContext
+								.ItemEntities;
+
+			switch(category.ToLower())
+			{
+				case "apple": 
+					switch (item.ToLower())
+					{
+						case "iphone":
+                            query = query.Where(queryItem => queryItem.Name.ToLower().Contains(item.ToLower()));
+							break;
+						case "macbook":
+							query = query.Where(queryItem => queryItem.Name.ToLower().Contains(item.ToLower()));
+							break;
+						case "ipad":
+							query = query.Where(queryItem => queryItem.Name.ToLower().Contains(item.ToLower()));
+							break;
+						case "apple watch":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "apple")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "watch")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+                        }
+						case "airpods":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "apple")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "airpods")).Id;
+							query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+							break;
+                        }
+						case "apple tv":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "apple")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "Tv")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+                    }
+					break;
+				case "samsung":
+					switch (item.ToLower())
+					{
+						case "смартфоны":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "samsung")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "phones")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "наушники":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "samsung")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "audio")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "watches":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "samsung")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "watch")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+					}
+					break;
+				case "xiaomi":
+					switch (item.ToLower())
+					{
+						case "смартфоны":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "xiaomi")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "phones")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "наушники":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "xiaomi")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "audio")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+							break;
+                        }
+						case "тв приставки":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "xiaomi")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "tv")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+							break;
+                        }
+					}
+					break;
+				case "dyson":
+					switch(item.ToLower())
+					{
+						case "стайлеры":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "dyson")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "styler")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "фены":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "dyson")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "hairdryer")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+                        case "выпрямители":
+                        {
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "dyson")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "rectifier")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+                        }
+                        case "пылесосы":
+                        {
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "dyson")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "vacuumcleaner")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+                        }
+                        case "очистители воздуха":
+                        {
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "dyson")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "airpurifiers")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+                        }
+                    }
+					break;
+				case "акустика и гарнитура":
+					switch (item.ToLower())
+					{
+						case "яндекс станции":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "yandex")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "audio")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "jbl":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "jbl")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "audio")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "marshall":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "marshall")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "audio")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+                        }
+					}
+					break;
+				case "гейминг":
+					switch (item.ToLower())
+					{
+						case "sony playstation":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "sony")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "tv")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "xbox":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "microsoft")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "tv")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "nintendo":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "nintendo")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "tv")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "steam deck":
+						{
+                            var brandId = (await _postgreSQLDbContext.ItemBrands.FirstAsync(brand => brand.Name.ToLower() == "steam")).Id;
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "tv")).Id;
+                            query = query.Where(queryItem => queryItem.ItemBrandId == brandId && queryItem.CategoryId == categoryId);
+                            break;
+						}
+						case "аксессуары":
+						{
+                            var categoryId = (await _postgreSQLDbContext.ItemCategories.FirstAsync(category => category.Name.ToLower() == "accessories")).Id;
+                            query = query.Where(queryItem => queryItem.CategoryId == categoryId);
+                            break;
+						}
+					}
+					break;
+			}
+
+			var itemsCount = await query.CountAsync();
+			var items = await query.ToListAsync();
+
+			return Ok(new
+			{
+				items = items,
+				count = itemsCount
+			});
 		}
 
 		[HttpPost("GetItemsByName")]
