@@ -13,7 +13,8 @@ namespace ParkMobileServer.DTO.ItemDTO
         public int Stock { get; set; }
         public string? Options { get; set; }
         public string Article { get; set; }
-        public bool? IsPopular { get; set; }
+        public bool IsPopular { get; set; } = false;
+        public bool IsNewItem { get; set; } = false;
 
         public int CategoryId { get; set; }
         public int BrandId { get; set; }

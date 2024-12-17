@@ -85,6 +85,26 @@
   },
   {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "CreateBaseBrands",
+    "RelativePath": "api/ItemsPostgre/CreateBaseBrands",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "CreateBaseCategories",
+    "RelativePath": "api/ItemsPostgre/CreateBaseCategories",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
     "Method": "CreateBrand",
     "RelativePath": "api/ItemsPostgre/CreateBrand",
     "HttpMethod": "POST",

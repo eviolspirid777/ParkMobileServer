@@ -52,7 +52,8 @@ namespace ParkMobileServer.Controllers
                     ItemBrandId = 3,
                     Stock = 2,
                     Article = "123412343145345",
-					IsPopular = true
+					IsPopular = true,
+					IsNewItem = true,
 				},
                 new ItemEntity
                 {
@@ -73,7 +74,8 @@ namespace ParkMobileServer.Controllers
                     ItemBrandId = 4,
                     Description = "AirPods 3 Lightning - это беспроводные наушники в форме вкладышей от компании Apple, которые предлагают ряд улучшенных функций и характеристик по сравнению с предыдущими моделями.\r\n\r\nОсновные характеристики:\r\n\r\nБеспроводная связь: AirPods 3 подключаются к вашему устройству с помощью технологии Bluetooth, обеспечивая стабильное и качественное беспроводное воспроизведение звука.\r\nУлучшенное качество звука: AirPods 3 обладают улучшенным звуком благодаря новому динамическому драйверу, который обеспечивает более глубокие басы и чистые высокие частоты.\r\nАктивное шумоподавление: Наушники оснащены технологией активного шумоподавления, которая позволяет блокировать внешние звуки, обеспечивая вас полным погружением в музыку или звонки.\r\nПрозрачный режим: С помощью прозрачного режима вы можете услышать окружающие звуки без необходимости снимать наушники, что делает их идеальным выбором для использования на улице или в общественном транспорте.\r\nУправление сенсорным нажатием: AirPods 3 управляются сенсорным нажатием, позволяя вам легко управлять воспроизведением музыки, отвечать на звонки и активировать голосового помощника Siri.\r\nЗарядка через разъем Lightning: AirPods 3 поставляются с зарядным футляром, который можно заряжать с помощью кабеля Lightning, обеспечивая быструю и удобную зарядку в любых условиях.\r\n\r\nAirPods 3 Lightning представляют собой идеальное сочетание качества звука, комфорта и удобства использования, что делает их отличным выбором для всех, кто ценит высокое качество звука и инновационные технологии.\r\nзводителя.",
                     Stock = 4,
-                    Article = "3q4gferg2i43562"
+                    Article = "3q4gferg2i43562",
+                    IsNewItem = true,
                 },
                 new ItemEntity
                 {
@@ -94,7 +96,8 @@ namespace ParkMobileServer.Controllers
                     ItemBrandId = 2,
                     Description = "PlayStation 5 Slim представляет собой истинный прорыв в мире игровых консолей, принципиально отличаясь от своих предшественников благодаря впечатляющим техническим характеристикам и инновационным функциям. Вот некоторые из ключевых особенностей PlayStation 5:\r\n\r\nНевероятная скорость загрузки: Благодаря продвинутому накопителю SSD и уникальной системе ввода-вывода, PlayStation 5 позволяет переходить между игровыми локациями и загружать игры практически мгновенно, устраняя экранные загрузки и обеспечивая плавный игровой процесс.\r\nФотореалистичная графика: С гибридным процессором на основе архитектуры Zen 2 и поддержкой технологии трассировки лучей, PlayStation 5 позволяет разработчикам создавать игры с потрясающей детализацией, дальностью проработки и освещением, а также 4K-разрешением для впечатляющих визуальных эффектов.\r\nТехнология 3D AudioTech: Благодаря мощному звуковому чипу Tempest 3D AudioTech, PlayStation 5 обеспечивает непревзойденное качество звука, создавая трехмерное аудио, которое погружает вас в игровой мир и позволяет услышать каждую деталь звука.\r\nУникальный геймпад DualSense: Новый геймпад DualSense предлагает уникальные функции, такие как адаптивные спусковые курки, улучшенная тактильная отдача и встроенная система микрофонов, что делает игровой процесс еще более интерактивным и захватывающим.\r\nОбратная совместимость и эксклюзивные игры: PlayStation 5 обеспечивает обратную совместимость с играми PlayStation 4 и предлагает широкий выбор эксклюзивных игр, таких как Horizon: Forbidden West, Gran Turismo 7 и Ratchet & Clank Rift Apart, обещая захватывающий игровой опыт как на релизе, так и в будущем.\r\n\r\nPlayStation 5 Slim - это не просто игровая консоль, это новое поколение развлечений, которое открывает перед вами мир возможностей и невероятных приключений.",
                     Stock = 6,
-                    Article = "flawsogf2345ot245t"
+                    Article = "flawsogf2345ot245t",
+                    IsNewItem = true,
                 });
 
             await _postgreSQLDbContext.SaveChangesAsync();
@@ -126,6 +129,26 @@ namespace ParkMobileServer.Controllers
 
 			return Ok();
 		}
+		[HttpPost("CreateBaseBrands")]
+		public async Task<IActionResult> CreateBaseBrands()
+		{
+			await _postgreSQLDbContext.ItemBrands.AddRangeAsync(
+				new ItemBrand[] {
+					new () { Name = "Apple" },
+					new () { Name = "Xiaomi"},
+					new () { Name = "Sony" },
+					new () { Name = "Steam" },
+					new () { Name = "Dyson" },
+                    new () { Name = "Yandex" },
+                    new () { Name = "Jbl" },
+                    new () { Name = "Marshall" },
+                    new () { Name = "Microsoft" },
+                    new () { Name = "Nintendo" },
+                });
+
+			await _postgreSQLDbContext.SaveChangesAsync();
+			return Ok();
+		}
 
 		[HttpGet("GetCategories")]
 		public async Task<IActionResult> GetCategoriesList()
@@ -152,9 +175,37 @@ namespace ParkMobileServer.Controllers
 
 			return Ok();
 		}
-		#endregion
-		#region Item
-		[Authorize]		
+
+        [HttpPost("CreateBaseCategories")]
+        public async Task<IActionResult> CreateBaseCategories()
+        {
+            await _postgreSQLDbContext.ItemCategories.AddRangeAsync(
+                new ItemCategory[] {
+                    new () { Name = "Iphone" },
+                    new () { Name = "Ipad"},
+                    new () { Name = "Watch" },
+                    new () { Name = "Mac" },
+                    new () { Name = "Airpods" },
+                    new () { Name = "Accessories" },
+                    new () { Name = "Gadgets" },
+                    new () { Name = "Audio" },
+                    new () { Name = "Phones" },
+                    new () { Name = "Gaming" },
+                    new () { Name = "Health" },
+                    new () { Name = "Tv" },
+                    new () { Name = "Styler" },
+                    new () { Name = "HairDryer" },
+                    new () { Name = "Rectifier" },
+                    new () { Name = "VacuumCleaner" },
+                    new () { Name = "AirPurifiers" },
+                });
+
+            await _postgreSQLDbContext.SaveChangesAsync();
+            return Ok();
+        }
+        #endregion
+        #region Item
+        [Authorize]		
 		[HttpPost("CreateItem")]
 		public async Task<IActionResult> CreateItem([FromBody] ItemEntity item)
 		{
@@ -471,6 +522,8 @@ namespace ParkMobileServer.Controllers
             _item.CategoryId = item.CategoryId;
 			_item.ItemBrandId = item.ItemBrandId;
 			_item.Options = item.Options ?? _item.Options;
+			_item.IsNewItem = item.IsNewItem;
+			_item.IsPopular = item.IsPopular;
 
 			_postgreSQLDbContext.ItemEntities.Update(_item);
 

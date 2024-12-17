@@ -24,6 +24,7 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Options = item.Options,
                     Article = item.Article,
                     IsPopular = item.IsPopular,
+                    IsNewItem = item.IsNewItem,
                 };
             }
             if(brandId != null)
@@ -42,7 +43,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Options = item.Options,
 					Article = item.Article,
 					IsPopular = item.IsPopular,
-				};
+                    IsNewItem = item.IsNewItem,
+                };
             }
             if(categoryId != null)
             {
@@ -60,7 +62,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                     Options = item.Options,
 					Article = item.Article,
 					IsPopular = item.IsPopular,
-				};
+                    IsNewItem = item.IsNewItem,
+                };
             }
 
             return new ItemDTO
@@ -77,7 +80,8 @@ namespace ParkMobileServer.Mappers.ItemsMapper
                 Options = item.Options,
 				Article = item.Article,
 				IsPopular = item.IsPopular,
-			};
+                IsNewItem = item.IsNewItem,
+            };
         }
 
         public static ItemShortDTO MatToShortDto(ItemEntity item)
