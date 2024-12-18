@@ -6,6 +6,7 @@ using ParkMobileServer.DTO.ItemDTO;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using ParkMobileServer.Entities.OrderTelegram;
+using ParkMobileServer.Entities.TradeIn;
 using ParkMobileServer.Mappers.BrandMapper;
 using ParkMobileServer.Mappers.CategoryMapper;
 using ParkMobileServer.Mappers.ItemsMapper;
@@ -676,6 +677,23 @@ namespace ParkMobileServer.Controllers
 
 			await _telegramBot.SendMessageAsync(message);
 			return Ok("Заказ успешно собран!");
+		}
+
+		[HttpPost("TradeInRequest")]
+		public async Task<IActionResult> PostTradeInRequest(TradeInRequest requestData)
+		{
+			string message = "ЗАЯВКА НА ТРЕЙД-ИН!\n\n" + 
+										$"Устройство: {requestData.DeviceType}\n" +
+										$"Модель: {requestData.Model}\n" +
+										$"Цвет: {requestData.Color}\n" + 
+										$"Состояние устройства: {requestData.Original}\n" +
+										$"Сброшен до заводских, отвязан iCloud и пароль: {requestData.Reset}\n" +
+										$"Состояние устройства: {requestData.Condition}\n\n" +
+										$"Имя владельца: {requestData.Username}\n" +
+										$"Телефон владельца: {requestData.Telephone}\n";
+
+            await _telegramBot.SendMessageAsync(message);
+            return Ok("Заявка на трейд-ин отправлена!");
 		}
 
 		[HttpPost("TelephoneCall/{tel}")]
