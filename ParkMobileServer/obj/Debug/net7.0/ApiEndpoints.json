@@ -304,6 +304,22 @@
   },
   {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "PostRepairRequest",
+    "RelativePath": "api/ItemsPostgre/RepairRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestData",
+        "Type": "ParkMobileServer.Entities.Repair.RepairRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
     "Method": "PostTelephoneAlert",
     "RelativePath": "api/ItemsPostgre/TelephoneCall/{tel}",
     "HttpMethod": "POST",
@@ -337,6 +353,22 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",
+    "Method": "PostTradeInRequest",
+    "RelativePath": "api/ItemsPostgre/TradeInRequest",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "requestData",
+        "Type": "ParkMobileServer.Entities.TradeIn.TradeInRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "ParkMobileServer.Controllers.ItemsPostgreController",

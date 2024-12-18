@@ -6,6 +6,7 @@ using ParkMobileServer.DTO.ItemDTO;
 using ParkMobileServer.Entities.Items;
 using ParkMobileServer.Entities.Orders;
 using ParkMobileServer.Entities.OrderTelegram;
+using ParkMobileServer.Entities.Repair;
 using ParkMobileServer.Entities.TradeIn;
 using ParkMobileServer.Mappers.BrandMapper;
 using ParkMobileServer.Mappers.CategoryMapper;
@@ -682,21 +683,35 @@ namespace ParkMobileServer.Controllers
 		[HttpPost("TradeInRequest")]
 		public async Task<IActionResult> PostTradeInRequest(TradeInRequest requestData)
 		{
-			string message = "ЗАЯВКА НА ТРЕЙД-ИН!\n\n" + 
+			string message = "ЗАЯВКА НА ТРЕЙД-ИН!\n\n" +
 										$"Устройство: {requestData.DeviceType}\n" +
-										$"Модель: {requestData.Model}\n" +
-										$"Цвет: {requestData.Color}\n" + 
-										$"Состояние устройства: {requestData.Original}\n" +
-										$"Сброшен до заводских, отвязан iCloud и пароль: {requestData.Reset}\n" +
-										$"Состояние устройства: {requestData.Condition}\n\n" +
+										$"Цвет: {requestData.Color}\n" +
+										$"Объем памяти: {requestData.Memory}\n" +
+										$"Внешнее состояние устройства: {requestData.Appearance}\n" +
+										$"Состояние аккумулятора: {requestData.Accumulator}\n" +
+										$"Комплектация устройства: {requestData.Complectation}\n" +
+										$"Ремонтировалось ли устройство: {requestData.Remonted}\n\n" +
 										$"Имя владельца: {requestData.Username}\n" +
-										$"Телефон владельца: {requestData.Telephone}\n";
+										$"Телефонный номер владельца: {requestData.Telephone}\n";
 
             await _telegramBot.SendMessageAsync(message);
             return Ok("Заявка на трейд-ин отправлена!");
 		}
 
-		[HttpPost("TelephoneCall/{tel}")]
+        [HttpPost("RepairRequest")]
+        public async Task<IActionResult> PostRepairRequest(RepairRequest requestData)
+        {
+			string message = "ЗАЯВКА НА РЕМОНТ!\n\n" +
+										$"Устройство: {requestData.Model}\n" +
+										$"Описание проблемы: {requestData.Description}\n\n" +
+                                        $"Имя владельца: {requestData.Name}\n" +
+                                        $"Телефонный номер владельца: {requestData.Telephone}\n";
+
+            await _telegramBot.SendMessageAsync(message);
+            return Ok("Заявка на ремонт отправлена!");
+        }
+
+        [HttpPost("TelephoneCall/{tel}")]
 		public async Task <IActionResult> PostTelephoneAlert(string tel)
 		{
 			await _telegramBot.SendTelephoneRecallAlert(tel);
